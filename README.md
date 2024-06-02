@@ -1,1 +1,1 @@
-# ARM8 ISA in Verilog
+# ARM8 Processor in Verilog
