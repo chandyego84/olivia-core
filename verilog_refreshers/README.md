@@ -5,9 +5,23 @@
 - [Silicon, semiconductor materials by doping](https://www.youtube.com/watch?v=33vbFFFn04k&t=735s&ab_channel=BenEater)
     - [MOSFETS](https://www.realdigital.org/doc/2b54ad2b01a1ecfe96402b147211cec2) - Field effect transistors operate in response to an electric field. nFET is conductive when the channel is fulle of negative charge carriers. pFET is conductive when the channel is full of positive charge carriers.
 - Gates (AND, OR, NOT, NAND, NOR, etc.) abstract transistors and can be used to make more complex modules like adders.
+- FPGAs use LUTs to perform boolean alebra. Discrete logic gates do not physically exist inside of an FPGA.
 - [Watch this guy yap about CLBs/LUTs and how they interact in an FPGA.](https://www.youtube.com/watch?v=FcJ6tPsB0Tw&ab_channel=YogeshMisra)
 
 2. [ICs](https://www.ansys.com/blog/what-is-an-integrated-circuit) are just a collection of transistors in a nice reliable package.
 - Digital ICs can be used for memory, data storage, or logic.
 - Analog ICs process continuous signals (zero to full supply voltage). Ex., sound, light.
-- ASICs perform a specific task efficiently unlike general purpose ICs. Ex., [ASIC Miner for bitcoin](https://www.investopedia.com/terms/a/asic.asp) that only generates hashes. 
+- ASICs perform a specific task efficiently unlike general purpose ICs. Ex., [ASIC Miner for bitcoin](https://www.investopedia.com/terms/a/asic.asp) that only generates hashes.
+
+---
+The following folders are implementations of common circuits. Take a look for learning and practice with verilog.
+- `/hello`
+    - simplest verilog module and testbench
+- `/basic_modules`
+    - logic gates
+- `/combo_blocks`
+    - muxes, encoders, decoders
+- `/memory`
+    - D flip-flop. buffers, register file, BRAM, SRAM
+- `/adder`
+    - carry ripple adder, full adder, ALU
