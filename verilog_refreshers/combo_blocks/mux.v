@@ -1,17 +1,17 @@
 // 1-bit, 2:1 mux
-module mux_2_1(input i_a, i_b, select);
+module mux_2_1(i_a, i_b, select, o_data);
     input wire i_a;
     input wire i_b;
     input wire select;
 
-    output o_data;
+    output wire o_data;
 
     assign o_data = select ? i_a : i_b;
 
 endmodule
 
 // 1-bit, 4:1 mux
-module mux_4_1(input a, b, c, d, sel);
+module mux_4_1(a, b, c, d, sel, out);
     input wire a;
     input wire b;
     input wire c;
@@ -38,7 +38,7 @@ endmodule
 // 8-bit, 4:1 bus mux
 // like the 4_1 mux we are using behavioral verilog instead of structural verilog
 // the synthesizer will construct the wiring
-module mux_8bus_4_1(input a, b, c, d, sel);
+module mux_8bus_4_1(a, b, c, d, sel, out);
     input wire [7:0] a, b, c, d;
     input wire [1:0] sel;
 
@@ -52,7 +52,7 @@ module mux_8bus_4_1(input a, b, c, d, sel);
             2'b01: temp <= b;
             2'b10: temp <= c;
             2'b11: temp <= d;
-            default: temp <= '0;
+            default: temp <= 2'b0;
         endcase
     end
 
@@ -62,7 +62,7 @@ endmodule
 
 // 8-bit, 4:1 bus mux using structural
 // we have to actually join 8 4:1 muxes together
-module structural_mux_8bus_4_1(input a, b, c, d, sel);
+module structural_mux_8bus_4_1(a, b, c, d, sel, out);
     input wire [7:0] a, b, c, d;
     input wire [1:0] sel;
 
