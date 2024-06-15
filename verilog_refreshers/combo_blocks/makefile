@@ -3,7 +3,7 @@ SRCS = mux.v mux_tb.v
 SRCS2 = encode_decode.v encode_decode_tb.v
 
 # Executable names for each testbench
-EXECS = tb_mux_2_1 tb_mux_4_1 tb_mux_8bus_4_1 tb_structural_mux_8bus_4_1 tb_encoder_4_2
+EXECS = tb_mux_2_1 tb_mux_4_1 tb_mux_8bus_4_1 tb_structural_mux_8bus_4_1 tb_encoder_4_2 tb_decoder_2_4
 
 # Default target
 all: $(EXECS)
@@ -48,6 +48,14 @@ tb_encoder_4_2: $(SRCS2)
 	vvp tb_encoder_4_2
 	@echo "Opening waveform for tb_encoder_4_2"
 	gtkwave tb_encoder_4_2.vcd &
+
+tb_decoder_2_4: $(SRCS2)
+	@echo "Compiling tb_decoder_2_4 with source files $^"
+	iverilog -o tb_decoder_2_4 -s tb_decoder_2_4 $^
+	@echo "Running simulation for tb_decoder_2_4"
+	vvp tb_decoder_2_4
+	@echo "Opening waveform for tb_decoder_2_4"
+	gtkwave tb_decoder_2_4.vcd &
 
 clean:
 	del -f $(EXECS) *.vcd

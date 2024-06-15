@@ -21,3 +21,33 @@ assign EOUT = EIN & ~(|in);
 
 
 endmodule
+
+module decoder_2_4(
+    input wire EIN,
+    input wire EOUT,
+    input wire [1:0] in,
+    output wire [3:0] out
+);
+
+reg [3:0] temp;
+
+always @ (EIN, EOUT, in) begin
+    if (EIN & ~EOUT) begin
+        case(in)
+        2'b00: temp <= 4'd1;
+        2'b01: temp <= 4'd2;
+        2'b10: temp <= 4'd4;
+        2'b11: temp <= 4'd8;
+        default: temp <= 4'd0;
+    endcase
+    end
+
+    else begin
+        // no input was asserted
+        temp <= 4'd0;
+    end 
+end
+
+assign out = temp;
+
+endmodule
