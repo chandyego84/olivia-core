@@ -1,5 +1,15 @@
 # ARM LEGv8 Processor in Verilog
-A simplified pipelined ARMv8 processor. The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.
+A simplified pipelined ARMv8 processor. The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.  
+  
+__Doubleword__: Group of 64 bits.    
+__Word__: Group of 32 bits.  
+
+LEGv8 architecture is 64 bits.   
+__Instruction format__: Each instruction takes exactly one word.  
+__Registers__: 64 bits x 32 registers.   
+__Memory__: LEGv8 uses byte addressing, with each doubleword representing 64 bits (8 bytes). There are two memories: instruction memory and data memory.    
+__Instruction Memory__: 8 bits x 64, i.e., 64 bytes. Since each instruction (32 bits) is 4 bytes, the instruction memory can hold 16 instructions.  
+__Data Memory__: 64 bits (8 bytes) x 128 = 1024 bytes of data.
 
 ## verilog_refreshers
 A folder with various verilog modules for practice.
@@ -21,9 +31,49 @@ A folder with various verilog modules for practice.
 ### Pipeline and stages
 ![](./img/pipelinedArmLeg.png)
 
-## Instructions - Basic Assembly
+## Instructions (Basic)
+### R-Format Instructions
+| opcode: 11 bits | Rm: 5 bits | shamt: 6 bits | Rn: 5 bits | Rd: 5 bits |
+- Opcode: operation code
+- Rm: second register source operand
+- shamt: shift amount (0000 for now)
+- Rn: first register source operand
+- Rd: register destination
+
+### D-Format Instructions
+| opcode: 11 bits | address: 9 bits | op2: 2 bits | Rn: 5 bits | Rt: 5 bits |   
+__Load/Store Instructions__:
+- address: constant offset from contents of base register Rn (+/- 32 doublewords).
+- Rn : base register
+- Rt: destination (load) or source (store) register number
+
+### I-Format Instructions
+| opcode: 10 bits | immediate: 12 bits | Rn: 5 bits | Rd: 5 bits |  
+__Immediate Instructions (ADDI, SUBI):__    
+- Rn: source register
+- Rd: destination register  
+- Immediate field is zero-extended   
+
+### Supported Instructions
 ![](./img/instructions.png)     
 Also `NOP` -- Make the processor wait one cycle.
+
+## Program Counter
+Each CPU instruction is 64 bits. The PC uses the Instruction Memory to fetch a 32 bit instruction at each cycle. 
+
+## Registers
+LEGv8 has 32 x 64-bit register file with 31 being genreal purpose registers X0 to X30.  
+X0 – X7: procedure arguments/results    
+X8: indirect result location register   
+X9 – X15: temporaries   
+X16 – X17 (IP0 – IP1): may be used by linker as a scratch register, other times as temporary register   
+X18:  platform register for platform independent code; otherwise a temporary register   
+X19 – X27: saved    
+X28 (SP): stack pointer 
+X29 (FP): frame pointer 
+X30 (LR): link register (return address)    
+XZR (register 31): the constant value 0     
+*NOTE: Temporary vs saved registers: No difference in how they work but rather how they ought to be used. Temporaries are caller saved registers, while saved registers are callee saved. In other words, when calling a function, the convention guarantees that the saved registers are the same after return wheras the convention does not guarantee this for the temporary registers.*
 
 ## Testing
 ### Registers Initialized With Some Values

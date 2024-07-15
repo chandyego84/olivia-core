@@ -15,7 +15,6 @@ output [63:0] adder_out;
 ProgramCounter pc(clk, rst, pc_in, pc_out);
 Adder pcAdder(4'b0100, pc_out, adder_out);
 
-
 // instruction memory
 
 /* ID */
