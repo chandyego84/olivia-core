@@ -6,7 +6,7 @@ module mux_2_1(i_a, i_b, select, o_data);
 
     output wire o_data;
 
-    assign o_data = select ? i_a : i_b;
+    assign o_data = select ? i_b : i_a;
 
 endmodule
 

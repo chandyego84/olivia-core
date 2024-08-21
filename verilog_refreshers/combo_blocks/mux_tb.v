@@ -8,24 +8,30 @@ module tb_mux_2_1;
     mux_2_1 uut(.i_a(i_a), .i_b(i_b), .select(select), .o_data(o_data));
 
     initial begin
+        // Set up VCD dump file
         $dumpfile("tb_mux_2_1.vcd");
         $dumpvars(0, tb_mux_2_1);
 
-        // test 1
+        // Test 1: select = 0, so output should be i_a
         i_a = 1'b0;
         i_b = 1'b1;
         select = 1'b0;
         #10;
+        // Expected output: o_data = i_a = 0
 
-        // test 2
+        // Test 2: select = 1, so output should be i_b
         i_a = 1'b0;
         i_b = 1'b1;
-        select = 1'b0;
+        select = 1'b1;
         #10;
+        // Expected output: o_data = i_b = 1
+
+        $finish;    
     end
 
+    // Monitor changes in inputs and output
     initial begin
-        $monitor("2-1: a=%b, b=%b, s=%b, o=%b\n", i_a, i_b, select, o_data);
+        $monitor("2-1 mux, Time=%0t | a=%b, b=%b, s=%b, o=%b", $time, i_a, i_b, select, o_data);
     end
 
 endmodule
