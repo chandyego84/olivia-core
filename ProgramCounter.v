@@ -1,4 +1,4 @@
-`timescale 1ns/1ps`
+`timescale 1ns/1ps
 
 module ProgramCounter(
     input clk,
@@ -12,11 +12,11 @@ initial begin
 end
 
 always @(posedge clk) begin
-    pc_out <= pc_in;
-end
-
-always @(rst) begin
-    pc_out = 0;
+    if (rst) begin
+        pc_out <= 0;
+    end else begin
+        pc_out <= pc_in;  
+    end
 end
 
 endmodule
