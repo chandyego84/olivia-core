@@ -6,7 +6,7 @@ VVP = vvp
 GTKWAAVE = gtkwave
 
 # Source files
-SRCS = Olivia.v ProgramCounter.v Adder.v
+SRCS = Olivia.v ProgramCounter.v Adder.v InstructionMemory.v
 PC_TB = pc_tb.v
 OLIVIA_TB = olivia_tb.v
 

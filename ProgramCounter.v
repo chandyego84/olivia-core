@@ -11,10 +11,16 @@ initial begin
     pc_out = 0;
 end
 
+always @(rst) begin
+    pc_out = 0;
+end
+
 always @(posedge clk) begin
     if (rst) begin
         pc_out <= 0;
-    end else begin
+    end 
+    
+    else begin
         pc_out <= pc_in;  
     end
 end

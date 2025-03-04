@@ -13,12 +13,13 @@ wire [63:0] pc_in;
 wire [63:0] pc_out;
 wire [63:0] adder_out;
 
-assign pc_in = adder_out;
+assign pc_in = adder_out; // pc_in updates when adder calculates next addr
 
 ProgramCounter pc(clk, rst, pc_in, pc_out);
-Adder pcAdder(4'b0100, pc_out, adder_out);
+Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
 
 // instruction memory
+
 
 /* ID */
 // register mux
