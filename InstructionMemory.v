@@ -1,12 +1,12 @@
 module InstructionMemory(
-    input [63:0] pc_addr;
-    output [31:0] instruction;
+    input [63:0] pc_addr,
+    output reg [31:0] instruction
 );
 
 // 64 registers of 8b width (64 bytes)
 // each instruction is 32 bits (4 bytes)
 // holds up to 16 instructions
-[7:0] im_data [63:0]
+reg [7:0] im_data [0:63];
 
 initial begin
     // initialize instructions
@@ -99,16 +99,15 @@ initial begin
     im_data[57] = 8'h00;  
     im_data[58] = 8'h00;  
     im_data[59] = 8'h14;  
-
 end
 
 // read address and output 32b instruction
 // big-endian order
 always @(pc_addr) begin
-    instruction[7:0] = im_data[pc_addr + 3] // MSB
-    instruction[15:8] = im_data[pc_addr + 2]
-    instruction[23:16] = im_data[pc_addr + 1]
-    instruction[31:24] = im_data[pc_addr] // LSb
+    instruction[7:0] = im_data[pc_addr + 3]; // MSB
+    instruction[15:8] = im_data[pc_addr + 2];
+    instruction[23:16] = im_data[pc_addr + 1];
+    instruction[31:24] = im_data[pc_addr]; // LSB
 end
 
 endmodule

@@ -8,10 +8,12 @@ GTKWAAVE = gtkwave
 # Source files
 SRCS = Olivia.v ProgramCounter.v Adder.v InstructionMemory.v
 PC_TB = pc_tb.v
+PC_IM_TB = pc_im_tb.v
 OLIVIA_TB = olivia_tb.v
 
 # Output files
 PC_OUT = pc_tb.out
+PC_IM_OUT = pc_im_tb.out
 OLIVIA_OUT = olivia_tb.out
 VCD = wave.vcd
 
@@ -22,6 +24,11 @@ all: run_olivia
 run_olivia: $(OLIVIA_TB) $(SRCS)
 	$(IVERILOG) -o $(OLIVIA_OUT) $(OLIVIA_TB) $(SRCS)
 	$(VVP) $(OLIVIA_OUT)
+
+# Compile and run the Program Counter + Instruction Memory testbench
+run_pc_im: $(PC_IM_TB) $(SRCS)
+	$(IVERILOG) -o $(PC_IM_OUT) $(PC_IM_TB) $(SRCS)
+	$(VVP) $(PC_IM_OUT)
 
 # Compile and run the Program Counter testbench
 run_pc: $(PC_TB) $(SRCS)
