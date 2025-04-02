@@ -1,4 +1,4 @@
-module InstructionMemory(
+module Instruction_Memory(
     input [63:0] pc_addr,
     output reg [31:0] instruction
 );

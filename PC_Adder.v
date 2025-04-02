@@ -1,4 +1,4 @@
-module Adder(
+module PC_Adder(
     input [3:0] inc,
     input [63:0] pc_out,
     output wire [63:0] adder_out

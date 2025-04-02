@@ -9,6 +9,7 @@ module olivia_test;
     // Wires to observe outputs
     wire [63:0] pc_out;
     wire [63:0] adder_out;
+    wire [31:0] instruction;
 
     // Instantiate the Olivia CPU (Program Counter and Adder implemented)
     Olivia uut (
@@ -22,11 +23,8 @@ module olivia_test;
     initial begin
         // Initialize inputs
         clk = 0;
-        rst = 1;  // Start with reset active
-        
-        // Apply reset and then release it after 20 ns
-        #10 rst = 0;  // Release reset after 10 ns
-        
+        rst = 0;  
+                
         // Observe program counter behavior
         #100;  // Let the system run for some time
 

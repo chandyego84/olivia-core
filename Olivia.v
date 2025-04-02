@@ -12,14 +12,15 @@ module Olivia(
 wire [63:0] pc_in;
 wire [63:0] pc_out;
 wire [63:0] adder_out;
+wire [31:0] instruction;
 
 assign pc_in = adder_out; // pc_in updates when adder calculates next addr
 
-ProgramCounter pc(clk, rst, pc_in, pc_out);
-Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
+Program_Counter PC(clk, rst, pc_in, pc_out);
+PC_Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
 
 // instruction memory
-
+Instruction_Memory IM(adder_out, instruction);
 
 /* ID */
 // register mux

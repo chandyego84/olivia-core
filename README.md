@@ -8,7 +8,7 @@ LEGv8 architecture is 64 bits.
 __Instruction format__: Each instruction takes exactly one word.  
 __Registers__: 64 bits x 32 registers.   
 __Memory__: LEGv8 uses byte addressing, with each doubleword representing 64 bits (8 bytes). There are two memories: instruction memory and data memory.    
-__Instruction Memory__: 8 bits x 64 registers, i.e., 64 bytes. Since each instruction (32 bits) is 4 bytes, the instruction memory can hold 16 instructions. Although we only have 64 registers, thus needing only 6 bits to represent the address space, we will use 64 bits for consistency with the full ARMv8 architecture.
+__Instruction Memory__: 8 bits x 64 registers, i.e., 64 bytes. Since each instruction (32 bits) is 4 bytes, the instruction memory can hold 16 instructions. Although we only have 64 registers, thus needing only 6 bits to represent the address space, we will use 64 bits for consistency with the full ARMv8 architecture.  
 __Data Memory__: 64 bits (8 bytes) x 128 registers = 1024 bytes of data.
 
 ## verilog_refreshers

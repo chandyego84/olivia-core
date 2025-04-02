@@ -15,7 +15,7 @@ module pc_tb;
     parameter INC_VALUE = 4'd4; // increment by 4 each cycle
 
     // Instantiate the ProgramCounter
-    ProgramCounter uut_pc (
+    Program_Counter uut_pc (
         .clk(clk),
         .rst(rst),
         .pc_in(pc_in),
@@ -23,7 +23,7 @@ module pc_tb;
     );
 
     // Instantiate the Adder
-    Adder uut_adder (
+    PC_Adder uut_adder (
         .inc(INC_VALUE),
         .pc_out(pc_out),
         .adder_out(adder_out)

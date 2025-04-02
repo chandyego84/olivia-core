@@ -1,6 +1,6 @@
 `timescale 1ns/1ps
 
-module ProgramCounter(
+module Program_Counter(
     input clk,
     input rst,
     input [63:0] pc_in,
