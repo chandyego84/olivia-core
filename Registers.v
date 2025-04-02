@@ -17,9 +17,8 @@ XZR (register 31): the constant value 0
 module Registers(
     input wire REGWRITE,
     input wire [4:0] rn, // read reg 1: instruction 9-5 
-    input wire [4:0] rm, // read reg 2: instruction 20-16 or instruction 4-0
-    // write register: instruction 4-0 (rd for r-type/i-type instructions to store value of current operation)
-    input wire [4:0] rd, // ; aka rt (target register) for D-type instructions to specify where value is loaded to
+    input wire [4:0] rm, // read reg 2: instruction 20-16 or instruction 4-0 (rt) for D-type instruction to store data into memory 
+    input wire [4:0] rd, // // write register: instruction 4-0 (rd for r-type/i-type instructions to store value of current operation in register)
     input wire [63:0] writeData,
     output reg [63:0] rn_data, // data from read reg 1
     output reg [63:0] rm_data // data from read reg 2

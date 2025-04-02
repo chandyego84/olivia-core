@@ -58,6 +58,12 @@ __Immediate Instructions (ADDI, SUBI):__
 ![](./img/instructions.png)     
 Also `NOP` -- Make the processor wait one cycle.
 
+### Control Signals  
+![](./img/control_signals.png)
+
+### Instructions Types With Control Signals
+![](./img/instructions_controls.png)
+
 ## Program Counter
 The PC uses the Instruction Memory to fetch a 32 bit instruction at each cycle. 4 registers of 8 bits are read in little-endian order.
 
