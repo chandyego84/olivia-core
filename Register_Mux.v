@@ -6,6 +6,6 @@ module Register_Mux(
 );
 
 
-assign out = REG2LOC ? rm : rt; 
+assign out = REG2LOC ? rt : rm; 
 
 endmodule

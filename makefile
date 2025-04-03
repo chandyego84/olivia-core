@@ -38,9 +38,9 @@ run_pc: $(PC_TB) $(SRCS)
 	$(VVP) $(PC_OUT)
 
 # Compile and run the Register_File testbench
-run_registers: $(REG_FILE_TB) Register_File.v
-	$(IVERILOG) -o $(REG_FILE_OUT) $(REG_FILE_TB) Register_File.v
-	$(VVP) $(REG_FILE_OUT)
+run_registers: $(REG_FILE_TB) Register_File.v Register_Mux.v
+	$(IVERILOG) -o $(REG_FILE_OUT) $(REG_FILE_TB) Register_File.v Register_Mux.v
+	$(VVP) $(REG_FILE_OUT) 
 
 # View waveform for Olivia testbench
 view_olivia: run_olivia

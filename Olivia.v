@@ -7,7 +7,7 @@ module Olivia(
 );
 
 /* MODULES */
-/* IF */
+/*** IF ***/
 // program counter
 wire [63:0] pc_in;
 wire [63:0] pc_out;
@@ -22,7 +22,7 @@ PC_Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
 // instruction memory
 Instruction_Memory IM(adder_out, instruction);
 
-/* ID */
+/*** ID ***/
 // register mux -- decides second operand reg
 wire [4:0] rm = instruction[20:16]; // R-type 
 wire [4:0] rt = instruction[4:0]; // loads, stores
@@ -46,7 +46,7 @@ Register_File regFile(
 
 // sign extend
 
-/* EX */
+/*** EX ***/
 // shift left 2
 
 // ALU Control
@@ -55,10 +55,10 @@ Register_File regFile(
 
 // ALU
 
-/* MEM */
+/*** MEM ***/
 // ram
 
-/* MEM WB */
+/*** MEM WB ***/
 // ram mux -- ram writeback
 
 endmodule
