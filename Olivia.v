@@ -23,9 +23,26 @@ PC_Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
 Instruction_Memory IM(adder_out, instruction);
 
 /* ID */
-// register mux
+// register mux -- decides second operand reg
+wire [4:0] rm = instruction[20:16]; // R-type 
+wire [4:0] rt = instruction[4:0]; // loads, stores
+wire [4:0] reg_mux_out;
+wire REG2LOC;
+
+Register_Mux regMux(rm, rt, REG2LOC, reg_mux_out);
 
 // register file
+wire [63:0] read_data1;
+wire [63:0] read_data2;
+wire REGWRITE;
+
+Register_File regFile(
+    instruction[9:5],
+    reg_mux_out,
+    instruction[4:0],
+    read_data1,
+    read_data2
+);
 
 // sign extend
 

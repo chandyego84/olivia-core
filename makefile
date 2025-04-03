@@ -6,14 +6,16 @@ VVP = vvp
 GTKWAAVE = gtkwave
 
 # Source files
-SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v
+SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v Register_File.v
 PC_TB = pc_tb.v
 PC_IM_TB = pc_im_tb.v
+REG_FILE_TB = register_file_tb.v
 OLIVIA_TB = olivia_tb.v
 
 # Output files
 PC_OUT = pc_tb.out
 PC_IM_OUT = pc_im_tb.out
+REG_FILE_OUT = register_file_tb.out
 OLIVIA_OUT = olivia_tb.out
 VCD = wave.vcd
 
@@ -34,6 +36,11 @@ run_pc_im: $(PC_IM_TB) $(SRCS)
 run_pc: $(PC_TB) $(SRCS)
 	$(IVERILOG) -o $(PC_OUT) $(PC_TB) $(SRCS)
 	$(VVP) $(PC_OUT)
+
+# Compile and run the Register_File testbench
+run_registers: $(REG_FILE_TB) Register_File.v
+	$(IVERILOG) -o $(REG_FILE_OUT) $(REG_FILE_TB) Register_File.v
+	$(VVP) $(REG_FILE_OUT)
 
 # View waveform for Olivia testbench
 view_olivia: run_olivia
