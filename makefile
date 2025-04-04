@@ -5,12 +5,15 @@ IVERILOG = iverilog
 VVP = vvp
 GTKWAAVE = gtkwave
 
+# Testbench folder
+TB_DIR = testbenches
+
 # Source files
 SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v Register_File.v
-PC_TB = pc_tb.v
-PC_IM_TB = pc_im_tb.v
-REG_FILE_TB = register_file_tb.v
-OLIVIA_TB = olivia_tb.v
+PC_TB = $(TB_DIR)/pc_tb.v
+PC_IM_TB = $(TB_DIR)/pc_im_tb.v
+REG_FILE_TB = $(TB_DIR)/register_file_tb.v
+OLIVIA_TB = $(TB_DIR)/olivia_tb.v
 
 # Output files
 PC_OUT = pc_tb.out
