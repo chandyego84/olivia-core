@@ -15,7 +15,7 @@ XZR (register 31): the constant value 0
 *NOTE: Temporary vs saved registers: No difference in how they work but rather how they ought to be used. Temporaries are caller saved registers, while saved registers are callee saved. In other words, when calling a function, the convention guarantees that the saved registers are the same after return wheras the convention does not guarantee this for the temporary registers.*
 */
 module Register_File(
-    input wire REGWRITE, // CONTROL SIGNAL
+    input wire REG_WRITE, // CONTROL SIGNAL
     input wire [4:0] read1, // read reg 1: instruction 9-5 
     input wire [4:0] read2, // read reg 2: instruction 20-16 or instruction 4-0 (rt) for reg to be written by a load 
     input wire [4:0] write_reg, // // write register: instruction 4-0 (rd for r-type/i-type instructions to store value of current operation in register)
@@ -36,8 +36,8 @@ initial begin
     reg_data[31] = 64'b0;
 end
 
-always @ (REGWRITE, read1, read2, write_reg, writeData) begin
-    if (REGWRITE == 1 && write_reg != 5'd31) begin // cannot write to reg 31
+always @ (REG_WRITE, read1, read2, write_reg, writeData) begin
+    if (REG_WRITE == 1 && write_reg != 5'd31) begin // cannot write to reg 31
         reg_data[write_reg] = writeData;
     end
 

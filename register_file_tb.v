@@ -3,7 +3,7 @@
 module register_file_tb;
 
     // Inputs for Register File
-    reg REGWRITE;
+    reg REG_WRITE;
     reg [4:0] read1, read2, write_reg;
     reg [63:0] writeData;
     
@@ -19,7 +19,7 @@ module register_file_tb;
     
     // Instantiate the Register File
     Register_File regFile(
-        .REGWRITE(REGWRITE),
+        .REG_WRITE(REG_WRITE),
         .read1(read1),
         .read2(read2),
         .write_reg(write_reg),
@@ -38,7 +38,7 @@ module register_file_tb;
 
     initial begin
         // Initialize inputs
-        REGWRITE = 0;
+        REG_WRITE = 0;
         read1 = 5'd0;
         read2 = 5'd1;
         write_reg = 5'd2;
@@ -50,7 +50,7 @@ module register_file_tb;
         
         // Initial write to the register file
         #10;
-        REGWRITE = 1;
+        REG_WRITE = 1;
         write_reg = 5'd2;  // Writing to register X2
         writeData = 64'd99999;
         
@@ -79,7 +79,7 @@ module register_file_tb;
         
         // Verify X31 remains zero
         $display("X31 before write: %d", regFile.reg_data[31]);
-        REGWRITE = 1;
+        REG_WRITE = 1;
         write_reg = 5'd31;
         writeData = 64'd99999;
         #10;

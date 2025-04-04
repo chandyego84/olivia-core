@@ -34,7 +34,7 @@ Register_Mux regMux(rm, rt, REG2LOC, reg_mux_out);
 // register file
 wire [63:0] read_data1;
 wire [63:0] read_data2;
-wire REGWRITE;
+wire REG_WRITE;
 
 Register_File regFile(
     instruction[9:5],
