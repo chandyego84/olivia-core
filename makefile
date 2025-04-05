@@ -13,14 +13,16 @@ SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v
 PC_TB = $(TB_DIR)/pc_tb.v
 PC_IM_TB = $(TB_DIR)/pc_im_tb.v
 REG_FILE_TB = $(TB_DIR)/register_file_tb.v
+CONTROL_ALU_TB = $(TB_DIR)/control_alu_tb.v
 OLIVIA_TB = $(TB_DIR)/olivia_tb.v
 
 # Output files
-PC_OUT = pc_tb.out
-PC_IM_OUT = pc_im_tb.out
-REG_FILE_OUT = register_file_tb.out
-OLIVIA_OUT = olivia_tb.out
-VCD = wave.vcd
+PC_OUT = $(TB_DIR)/pc_tb.out
+PC_IM_OUT = $(TB_DIR)/pc_im_tb.out
+REG_FILE_OUT = $(TB_DIR)/register_file_tb.out
+CONTROL_ALU_OUT = $(TB_DIR)/control_alu_tb.out
+OLIVIA_OUT = $(TB_DIR)/olivia_tb.out
+VCD = $(TB_DIR)/wave.vcd
 
 # Targets
 all: run_olivia
@@ -45,6 +47,11 @@ run_registers: $(REG_FILE_TB) Register_File.v Register_Mux.v
 	$(IVERILOG) -o $(REG_FILE_OUT) $(REG_FILE_TB) Register_File.v Register_Mux.v
 	$(VVP) $(REG_FILE_OUT) 
 
+# For ALU control block
+run_control_alu: $(CONTROL_ALU_TB) Control_Unit.v ALU_CONTROL.v
+	$(IVERILOG) -o $(CONTROL_ALU_OUT) $(CONTROL_ALU_TB) Control_Unit.v ALU_CONTROL.v
+	$(VVP) $(CONTROL_ALU_OUT)
+
 # View waveform for Olivia testbench
 view_olivia: run_olivia
 	$(GTKWAAVE) $(VCD)
@@ -53,8 +60,13 @@ view_olivia: run_olivia
 view_pc: run_pc
 	$(GTKWAAVE) $(VCD)
 
+# View waveform for Control Unit and ALU Control
+view_controllers: run_control_alu
+	$(GTKWAAVE) $(VCD)
+
 # Clean up generated files
 clean:
-	del -f *.out *.vcd
+	del -f $(TB_DIR)\\*.out $(TB_DIR)\\*.vcd
 
-.PHONY: all run_olivia run_pc view_olivia view_pc clean
+.PHONY: all run_olivia run_pc run_pc_im run_registers run_control_alu \
+        view_olivia view_pc view_controllers clean

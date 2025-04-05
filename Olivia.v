@@ -37,9 +37,11 @@ wire [63:0] read_data2;
 wire REG_WRITE;
 
 Register_File regFile(
+    REG_WRITE,
     instruction[9:5],
+    rm,
+    rt,
     reg_mux_out,
-    instruction[4:0],
     read_data1,
     read_data2
 );

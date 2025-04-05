@@ -1,6 +1,10 @@
 `timescale 1ns/1ps
 
 module olivia_test;
+    initial begin
+    $dumpfile("testbenches/wave.vcd");
+    $dumpvars(0);
+    end
 
     // Inputs
     reg clk;
