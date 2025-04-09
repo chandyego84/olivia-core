@@ -104,10 +104,10 @@ end
 // read address and output 32b instruction
 // big-endian order
 always @(pc_addr) begin
-    instruction[7:0] = im_data[pc_addr + 3]; // MSB
+    instruction[7:0] = im_data[pc_addr + 3]; // LSB
     instruction[15:8] = im_data[pc_addr + 2];
     instruction[23:16] = im_data[pc_addr + 1];
-    instruction[31:24] = im_data[pc_addr]; // LSB
+    instruction[31:24] = im_data[pc_addr]; // MSB
 end
 
 endmodule

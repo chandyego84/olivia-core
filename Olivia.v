@@ -1,5 +1,7 @@
 `timescale 1ns/1ps
 
+////// TODO: REWRITE SEQUENTIAL MODULES TO USE CLK -- NEED TO CHECK ON THIS //////
+
 // olivia is the cuter name of our CPU
 module Olivia(
     input clk,

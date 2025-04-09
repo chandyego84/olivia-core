@@ -65,7 +65,7 @@ Also `NOP` -- Make the processor wait one cycle.
 ![](./img/instructions_controls.png)
 
 ## Program Counter
-The PC uses the Instruction Memory to fetch a 32 bit instruction at each cycle. 4 registers of 8 bits are read in little-endian order.
+The PC uses the Instruction Memory to fetch a 32 bit instruction at each cycle. 4 registers of 8 bits are read in big-endian order.
 
 ## Registers
 LEGv8 has 32 x 64-bit register file with 31 being genreal purpose registers X0 to X30.  
