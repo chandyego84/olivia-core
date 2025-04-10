@@ -4,6 +4,8 @@
 // REG FILE
 // MEMORY
 
+///// TODO: NEED TO TEST OLIVIA UP TO ALU OUTPUT
+
 // olivia is the cuter name of our CPU
 module Olivia(
     input clk,

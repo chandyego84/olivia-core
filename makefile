@@ -1,4 +1,6 @@
-# Makefile for Olivia project
+####
+### TODO: NEED TO UPDATE WITH ALU MODULES, e.g., SIGN EXTEND, ALU MUX 
+####
 
 # Variables
 IVERILOG = iverilog
