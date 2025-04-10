@@ -1,6 +1,8 @@
 `timescale 1ns/1ps
 
 ////// TODO: REWRITE SEQUENTIAL MODULES TO USE CLK -- NEED TO CHECK ON THIS //////
+// REG FILE
+// MEMORY
 
 // olivia is the cuter name of our CPU
 module Olivia(
@@ -48,16 +50,67 @@ Register_File regFile(
     read_data2
 );
 
-// sign extend
-
 /*** EX ***/
-// shift left 2
+// control unit
+wire ALU_SRC;
+wire MEM2REG;
+wire MEM_READ;
+wire MEM_WRITE;
+wire BRANCH;
+wire [1:0] ALU_OP;
+
+Control_Unit controlUnut(
+    instruction,
+    REG2LOC,
+    ALU_SRC,
+    MEM2REG,
+    REG_WRITE,
+    MEM_WRITE,
+    BRANCH,
+    ALU_OP 
+);
 
 // ALU Control
+wire [2:0] op_code_bits = {instruction[30], instruction[29], instruction[24]}
+wire [3:0] ALU_SIGNAL;
+
+ALU_Control aluControl(
+    ALU_OP,
+    op_code_bits,
+    ALU_SIGNAL
+);
 
 // ALU mux
+wire [63:0] alu_read_data2; // alu mux output
+wire [63:0] sign_ext_inst; // mux 1 output
+
+// sign extend for instruction
+Sign_Extend signExt(
+    instruction,
+    sign_ext_inst
+);
+
+ALU_Mux aluMux(
+    read_data2, // mux 0 output
+    sign_ext_inst,
+    ALU_SRC,
+    alu_read_data2
+);
+
 
 // ALU
+wire [63:0] alu_result;
+wire ZERO_FLAG;
+
+ALU alu(
+    read_data1,
+    alu_read_data2,
+    ALU_SIGNAL,
+    alu_result,
+    ZERO_FLAG
+);
+
+// shift left 2
 
 /*** MEM ***/
 // ram
