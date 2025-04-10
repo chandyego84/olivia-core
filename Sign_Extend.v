@@ -5,7 +5,7 @@ module Sign_Extend(
 );
 
 always @ (*) begin
-    ext_bits <= { 32{inp_bits[31]}, inp_bits[31:0]};
+    ext_bits <= { {32{inp_bits[31]}}, inp_bits[31:0]};
 end
 
 endmodule
