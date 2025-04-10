@@ -9,11 +9,12 @@ GTKWAAVE = gtkwave
 TB_DIR = testbenches
 
 # Source files
-SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v Register_File.v
+SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v Register_File.v Control_Unit.v ALU_Control.v ALU.v
 PC_TB = $(TB_DIR)/pc_tb.v
 PC_IM_TB = $(TB_DIR)/pc_im_tb.v
 REG_FILE_TB = $(TB_DIR)/register_file_tb.v
 CONTROL_ALU_TB = $(TB_DIR)/control_alu_tb.v
+ALU_TB = $(TB_DIR)/alu_tb.v
 OLIVIA_TB = $(TB_DIR)/olivia_tb.v
 
 # Output files
@@ -21,6 +22,7 @@ PC_OUT = $(TB_DIR)/pc_tb.out
 PC_IM_OUT = $(TB_DIR)/pc_im_tb.out
 REG_FILE_OUT = $(TB_DIR)/register_file_tb.out
 CONTROL_ALU_OUT = $(TB_DIR)/control_alu_tb.out
+ALU_OUT = $(TB_DIR)/alu_tb.out
 OLIVIA_OUT = $(TB_DIR)/olivia_tb.out
 VCD = $(TB_DIR)/wave.vcd
 
@@ -51,6 +53,11 @@ run_registers: $(REG_FILE_TB) Register_File.v Register_Mux.v
 run_control_alu: $(CONTROL_ALU_TB) Control_Unit.v ALU_CONTROL.v
 	$(IVERILOG) -o $(CONTROL_ALU_OUT) $(CONTROL_ALU_TB) Control_Unit.v ALU_CONTROL.v
 	$(VVP) $(CONTROL_ALU_OUT)
+
+# For ALU
+run_alu: $(ALU) ALU.v
+	$(IVERILOG) -o $(ALU_OUT) $(ALU_TB) ALU.v
+	$(VVP) $(ALU_OUT)
 
 # View waveform for Olivia testbench
 view_olivia: run_olivia
