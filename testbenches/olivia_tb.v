@@ -153,8 +153,8 @@ task print_register_contents;
         
         // D-type instructions (load/store)
         11'b11111000010: begin // LDUR
-          $display("Operation: X%d = [X%d + 0]", 
-                  dut.instruction[4:0], dut.instruction[9:5]);
+          $display("Operation: X%d = [X%d + %0d]", 
+                  dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:12]);
           $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
           $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
           $display("Expected Address: %0d | Actual: %0d", 
@@ -164,8 +164,8 @@ task print_register_contents;
         end
         
         11'b11111000000: begin // STUR
-          $display("Operation: [X%d + 0] = X%d", 
-                  dut.instruction[9:5], dut.instruction[4:0]);
+          $display("Operation: [X%d + %0d] = X%d", 
+                  dut.instruction[9:5], dut.instruction[20:12], dut.instruction[4:0]);
           $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
           $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
           $display("Expected Address: %0d | Actual: %0d", 
