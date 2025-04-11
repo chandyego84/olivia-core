@@ -7,19 +7,10 @@ module Program_Counter(
     output reg [63:0] pc_out
 );
 
-initial begin 
-    pc_out = 0;
-end
-
-always @(rst) begin
-    pc_out = 0;
-end
-
-always @(posedge clk) begin
+always @(posedge clk or posedge rst) begin
     if (rst) begin
         pc_out <= 0;
     end 
-    
     else begin
         pc_out <= pc_in;  
     end
