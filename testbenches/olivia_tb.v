@@ -86,7 +86,7 @@ task print_register_contents;
 
   // Test sequence
   initial begin
-    $dumpfile("olivia_alu_test.vcd");
+    $dumpfile("testbenches/wave.vcd");
     $dumpvars(0, olivia_tb);
 
     // Initialize with reset active
@@ -156,9 +156,10 @@ task print_register_contents;
           $display("Operation: X%d = [X%d + 0]", 
                   dut.instruction[4:0], dut.instruction[9:5]);
           $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
+          $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
           $display("Expected Address: %0d | Actual: %0d", 
-                  dut.read_data1, dut.alu_result);
-          if (dut.read_data1 !== dut.alu_result)
+                  dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
+          if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result)
             $display("ERROR: LDUR address mismatch!");
         end
         
@@ -166,9 +167,10 @@ task print_register_contents;
           $display("Operation: [X%d + 0] = X%d", 
                   dut.instruction[9:5], dut.instruction[4:0]);
           $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
+          $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
           $display("Expected Address: %0d | Actual: %0d", 
-                  dut.read_data1, dut.alu_result);
-          if (dut.read_data1 !== dut.alu_result)
+                  dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
+          if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result)
             $display("ERROR: STUR address mismatch!");
         end
         
