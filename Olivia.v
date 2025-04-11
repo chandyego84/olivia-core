@@ -26,10 +26,11 @@ Program_Counter PC(clk, rst, pc_in, pc_out);
 PC_Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
 
 // instruction memory
-Instruction_Memory IM(adder_out, instruction);
+Instruction_Memory IM(pc_out, instruction);
 
 /*** ID ***/
 // register mux -- decides second operand reg
+wire [4:0] rn = instruction[9:5];
 wire [4:0] rm = instruction[20:16]; // R-type 
 wire [4:0] rt = instruction[4:0]; // loads, stores
 wire [4:0] reg_mux_out;
@@ -40,14 +41,15 @@ Register_Mux regMux(rm, rt, REG2LOC, reg_mux_out);
 // register file
 wire [63:0] read_data1;
 wire [63:0] read_data2;
+wire [63:0] reg_write_data; // MEMORY: from alu or from memory
 wire REG_WRITE;
 
 Register_File regFile(
     REG_WRITE,
-    instruction[9:5],
-    rm,
-    rt,
+    rn,
     reg_mux_out,
+    rt,
+    reg_write_data,
     read_data1,
     read_data2
 );
@@ -67,13 +69,14 @@ Control_Unit controlUnut(
     ALU_SRC,
     MEM2REG,
     REG_WRITE,
+    MEM_READ,
     MEM_WRITE,
     BRANCH,
     ALU_OP 
 );
 
 // ALU Control
-wire [2:0] op_code_bits = {instruction[30], instruction[29], instruction[24]}
+wire [2:0] op_code_bits = {instruction[30], instruction[29], instruction[24]};
 wire [3:0] ALU_SIGNAL;
 
 ALU_Control aluControl(
