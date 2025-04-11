@@ -48,6 +48,18 @@ module register_file_tb;
         rt = 5'd1;
         REG2LOC = 0;  // Initially select `rm`
         
+        // Display all initial register values
+        $display("\nInitial Register Values:");
+        $display("-----------------------");
+        for (integer i = 0; i < 32; i = i + 1) begin
+            if (i == 31) begin
+                $display("XZR (X31): %0d (should be 0)", regFile.reg_data[i]);
+            end else begin
+                $display("X%0d: %0d", i, regFile.reg_data[i]);
+            end
+        end
+        $display("-----------------------\n");
+        
         // Initial write to the register file
         #10;
         REG_WRITE = 1;
@@ -64,26 +76,41 @@ module register_file_tb;
         #10; // wait for write to complete
         
         // Display the data
-        $display("Register X1: %d", read_data1);
-        $display("Register X2: %d", read_data2);
+        $display("Current Register Values:");
+        $display("X1: %d", read_data1);
+        $display("X2: %d (should be 99999)", read_data2);
 
         // Test the Register Mux: select `rm` (should be register X0)
         REG2LOC = 0;  // Select `rm`
         #10;
-        $display("Register Mux Output (should be rm): %d", mux_out);
+        $display("\nRegister Mux Output (should be rm=0): %d", mux_out);
         
         // Test Register Mux: select `rt` (should be register X1)
         REG2LOC = 1;  // Select `rt`
         #10;
-        $display("Register Mux Output (should be rt): %d", mux_out);
+        $display("Register Mux Output (should be rt=1): %d", mux_out);
         
         // Verify X31 remains zero
-        $display("X31 before write: %d", regFile.reg_data[31]);
+        $display("\nTesting XZR (X31):");
+        $display("X31 before write: %d (should be 0)", regFile.reg_data[31]);
         REG_WRITE = 1;
         write_reg = 5'd31;
         writeData = 64'd99999;
         #10;
-        $display("X31 after write (should still be 0): %d", regFile.reg_data[31]);
+        $display("X31 after write attempt: %d (should still be 0)", regFile.reg_data[31]);
+        
+        // Display final register values
+        $display("\nFinal Register Values:");
+        $display("---------------------");
+        for (integer i = 0; i < 32; i = i + 1) begin
+            if (i == 2) begin
+                $display("X%0d: %0d (should be 99999)", i, regFile.reg_data[i]);
+            end else if (i == 31) begin
+                $display("XZR (X31): %0d (should be 0)", regFile.reg_data[i]);
+            end else begin
+                $display("X%0d: %0d", i, regFile.reg_data[i]);
+            end
+        end
         
         // End simulation
         $finish;
