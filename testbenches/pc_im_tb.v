@@ -14,7 +14,7 @@ module pc_im_tb;
     always #5 clk = ~clk; // 10 ns clk period
 
     // Instantiate PC
-    ProgramCounter uut_pc (
+    Program_Counter uut_pc (
         .clk(clk),
         .rst(rst),
         .pc_in(pc_in),
@@ -22,7 +22,7 @@ module pc_im_tb;
     );
 
     // Instantiate IM
-    InstructionMemory uut_im (
+    Instruction_Memory uut_im (
         .pc_addr(pc_out),
         .instruction(instruction)
     );
