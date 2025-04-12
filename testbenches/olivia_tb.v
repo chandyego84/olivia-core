@@ -46,17 +46,17 @@ task print_register_contents;
     begin
     $display("Register | Value");
     $display("--------|------------------");
-    for (i = 0; i < 32; i = i + 1) begin
-        if (i == 31) begin
-        $display("XZR (X31) | %0d (always zero)", dut.regFile.reg_data[i]);
-        end else begin
-        $display("X%-2d      | %0d", i, dut.regFile.reg_data[i]);
+        for (i = 0; i < 32; i = i + 1) begin
+            if (i == 31) begin
+            $display("XZR (X31) | %0d (always zero)", dut.regFile.reg_data[i]);
+            end else begin
+            $display("X%-2d      | %0d", i, dut.regFile.reg_data[i]);
+            end
         end
     end
-    end
-    endtask
+endtask
 
-  // Function to get instruction name (Verilog compatible)
+  // Function to get instruction name
   function [8*20:1] get_opcode_name;
     input [31:0] instr;
     begin
@@ -91,14 +91,12 @@ task print_register_contents;
 
     // Initialize with reset active
     RST = 1;
-    #20;  // Hold reset for 2 clock edges
+    #10;  // Hold reset for 1 clock edges
     RST = 0;
     
     // Run long enough to execute all instructions
-    #500;
+    #170;
     
-    $display("\nALU Test Summary:");
-    $display("All ALU operations verified!");
     $finish;
   end
 
@@ -106,47 +104,53 @@ task print_register_contents;
   always @(posedge CLK) begin
     if (RST == 0) begin // Only monitor after reset
       $display("\n-----------------------------");
+      $display("Time: %t", $time);
       $display("Cycle: %0d", $time/10);
       $display("PC: %0d", dut.pc_out);
       
       case (dut.instruction[31:21])
         // R-type instructions
         11'b10001011000: begin // ADD
-          $display("Operation: X%d = X%d + X%d", 
-                  dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
-          $display("Operands: %0d + %0d", dut.read_data1, dut.read_data2);
-          $display("Result: Expected=%0d | Actual=%0d", 
+            $display("Operation: X%0d = X%0d + X%0d", 
+                dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
+            $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
+            $display("Operands: %0d + %0d", dut.read_data1, dut.read_data2);
+            $display("Result: Expected=%0d | Actual=%0d", 
                   dut.read_data1 + dut.read_data2, dut.alu_result);
+            $display("Reg2Write: X%0d", dut.rt);
           if (dut.read_data1 + dut.read_data2 !== dut.alu_result)
             $display("ERROR: ADD result mismatch!");
         end
         
         11'b11001011000: begin // SUB
-          $display("Operation: X%d = X%d - X%d", 
+            $display("Operation: X%0d = X%0d - X%0d", 
                   dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
-          $display("Operands: %0d - %0d", dut.read_data1, dut.read_data2);
-          $display("Result: Expected=%0d | Actual=%0d", 
+            $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
+            $display("Operands: %0d - %0d", dut.read_data1, dut.read_data2);
+            $display("Result: Expected=%0d | Actual=%0d", 
                   dut.read_data1 - dut.read_data2, dut.alu_result);
           if (dut.read_data1 - dut.read_data2 !== dut.alu_result)
             $display("ERROR: SUB result mismatch!");
         end
         
         11'b10001010000: begin // AND
-          $display("Operation: X%d = X%d & X%d", 
-                  dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
-          $display("Operands: %0d & %0d", dut.read_data1, dut.read_data2);
-          $display("Result: Expected=%0d | Actual=%0d", 
-                  dut.read_data1 & dut.read_data2, dut.alu_result);
+            $display("Operation: X%0d = X%0d & X%0d", 
+                    dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
+            $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
+            $display("Operands: %0d & %0d", dut.read_data1, dut.read_data2);
+            $display("Result: Expected=%0d | Actual=%0d", 
+                    dut.read_data1 & dut.read_data2, dut.alu_result);
           if ((dut.read_data1 & dut.read_data2) !== dut.alu_result)
             $display("ERROR: AND result mismatch!");
         end
         
         11'b10101010000: begin // ORR
-          $display("Operation: X%d = X%d | X%d", 
-                  dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
-          $display("Operands: %0d | %0d", dut.read_data1, dut.read_data2);
-          $display("Result: Expected=%0d | Actual=%0d", 
-                  dut.read_data1 | dut.read_data2, dut.alu_result);
+            $display("Operation: X%0d = X%0d | X%0d", 
+                    dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
+            $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
+            $display("Operands: %0d | %0d", dut.read_data1, dut.read_data2);
+            $display("Result: Expected=%0d | Actual=%0d", 
+                    dut.read_data1 | dut.read_data2, dut.alu_result);
           if ((dut.read_data1 | dut.read_data2) !== dut.alu_result)
             $display("ERROR: ORR result mismatch!");
         end
