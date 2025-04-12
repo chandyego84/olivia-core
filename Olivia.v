@@ -112,9 +112,23 @@ ALU alu(
 // shift left 2
 
 /*** MEM ***/
-// ram
+wire [63:0] ram_read_data;
+
+RAM ram(
+    MEM_WRITE,
+    MEM_READ,
+    alu_result,
+    read_data2,
+    ram_read_data
+);
 
 /*** MEM WB ***/
 // ram mux -- ram writeback
+RAM_Mux ramMux(
+    MEM2REG,
+    ram_read_data,
+    alu_result,
+    reg_write_data
+);
 
 endmodule
