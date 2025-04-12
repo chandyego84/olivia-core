@@ -1,6 +1,8 @@
 # ARM LEGv8 Processor in Verilog
 
-![ARM_LOGO](./img/ARM_LOGO.jpg)
+<p align="center">
+  <img src="./img/SMOL_ARM_LOGO.jpg" alt="ARMLOGO" style="width:50%; height:50%;">
+</p>
 
 A simplified ARMv8 "processor". The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.  
 
