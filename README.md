@@ -1,4 +1,4 @@
-# ARM LEGv8 Processor in Verilog
+# Olivia Rodricore
 
 <p align="center">
   <img src="./img/SMOL_ARM_LOGO.jpg" alt="ARMLOGO" style="width:50%; height:50%;">
