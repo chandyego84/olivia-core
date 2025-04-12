@@ -7,7 +7,7 @@ GTKWAAVE = gtkwave
 TB_DIR = testbenches
 
 # Source files
-SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v Register_File.v Control_Unit.v ALU_Control.v ALU.v ALU_mux.v Sign_Extend.v RAM.v RAM_Mux.v
+SRCS = Olivia.v Program_Counter.v PC_Adder.v Instruction_Memory.v Register_Mux.v Register_File.v Control_Unit.v ALU_Control.v ALU.v Sign_Extend.v RAM.v Mux_64.v
 PC_TB = $(TB_DIR)/pc_tb.v
 PC_IM_TB = $(TB_DIR)/pc_im_tb.v
 REG_FILE_TB = $(TB_DIR)/register_file_tb.v

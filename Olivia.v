@@ -30,7 +30,7 @@ wire [4:0] rt = instruction[4:0]; // loads, stores
 wire [4:0] reg_mux_out;
 wire REG2LOC;
 
-Register_Mux regMux(rm, rt, REG2LOC, reg_mux_out);
+Register_Mux regMux(REG2LOC, rm, rt, reg_mux_out);
 
 // register file
 wire [63:0] read_data1;
@@ -89,10 +89,19 @@ Sign_Extend signExt(
     sign_ext_inst
 );
 
-ALU_Mux aluMux(
-    read_data2, // mux 0 output
-    sign_ext_inst,
+/**
+    input wire ALU_SRC,
+    input wire [63:0] sign_ext_inst,
+    input wire [63:0] read_data2,
+    output wire [63:0] out
+);
+
+assign out = ALU_SRC ? sign_ext_inst : read_data2;
+**/
+Mux_64 aluMux(
     ALU_SRC,
+    sign_ext_inst,
+    read_data2, // mux 0 output
     alu_read_data2
 );
 
@@ -109,8 +118,6 @@ ALU alu(
     ZERO_FLAG
 );
 
-// shift left 2
-
 /*** MEM ***/
 wire [63:0] ram_read_data;
 
@@ -123,8 +130,18 @@ RAM ram(
 );
 
 /*** MEM WB ***/
-// ram mux -- ram writeback
-RAM_Mux ramMux(
+/**
+module RAM_Mux(
+    input wire MEM2REG,
+    input wire [63:0] ram_read_data,
+    input wire [63:0] ALU_result,
+    output wire [63:0] out // data to register file
+);
+
+assign out = MEM2REG ? ram_read_data : ALU_result; 
+endmodule
+**/
+Mux_64 ramMux(
     MEM2REG,
     ram_read_data,
     alu_result,
