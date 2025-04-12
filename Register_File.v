@@ -36,13 +36,16 @@ initial begin
     reg_data[31] = 64'b0;
 end
 
-always @ (REG_WRITE, read1, read2, write_reg, writeData) begin
-    if (REG_WRITE == 1 && write_reg != 5'd31) begin // cannot write to reg 31
+always @ (*) begin
+    read_data1 = reg_data[read1];
+    read_data2 = reg_data[read2];    
+end
+
+always @(*) begin
+    // reg write
+    if (REG_WRITE && write_reg != 5'd31) begin
         reg_data[write_reg] = writeData;
     end
-
-    read_data1 <= reg_data[read1];
-    read_data2 <= reg_data[read2];
 end
 
 endmodule

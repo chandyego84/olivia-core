@@ -99,6 +99,13 @@ initial begin
     im_data[57] = 8'h00;  
     im_data[58] = 8'h00;  
     im_data[59] = 8'h14;  
+
+    // Instruction 16: NOP -> 0x00000000
+    im_data[60] = 8'h00;  
+    im_data[61] = 8'h00;  
+    im_data[62] = 8'h00;  
+    im_data[63] = 8'h00;  
+
 end
 
 // read address and output 32b instruction

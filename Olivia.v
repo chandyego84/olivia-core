@@ -1,11 +1,5 @@
 `timescale 1ns/1ps
 
-////// TODO: REWRITE SEQUENTIAL MODULES TO USE CLK -- NEED TO CHECK ON THIS //////
-// REG FILE
-// MEMORY
-
-///// TODO: NEED TO TEST OLIVIA UP TO ALU OUTPUT
-
 // olivia is the cuter name of our CPU
 module Olivia(
     input clk,
