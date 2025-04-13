@@ -15,11 +15,13 @@ module Control_Unit(
     output reg MEM_READ,
     output reg MEM_WRITE,
     output reg BRANCH,
+    output reg UNCOND_BRANCH,
     output reg [1:0] ALU_OP
 );
 
 wire [10:0] opcode_full = instruction[31:21]; // r-type, load, store
 wire [7:0] opcode_cbz = instruction[31:24];
+wire [5:0] opcode_branch = instruction[31:26];
 
 always @ (*) begin
     // initialize all
@@ -45,6 +47,21 @@ always @ (*) begin
         BRANCH    <= 0;
 
     end
+
+    else if (opcode_branch == 8'd5) begin
+        // UNCONDITIONAL BRANCH
+        UNCOND_BRANCH <= 1;
+        BRANCH    <= 1; // doesnt really matter, but it IS a branch, so set it anyways
+        REG2LOC <= 0;
+        BRANCH <= 0;
+        ALU_OP <= 2'b00;
+        ALU_SRC   <= 0;
+        MEM2REG   <= 0;
+        REG_WRITE <= 0;
+        MEM_READ  <= 0;
+        MEM_WRITE <= 0;
+    end
+
 
     else begin 
         case (opcode_full)

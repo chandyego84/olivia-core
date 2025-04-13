@@ -12,7 +12,7 @@ wire [63:0] pc_in;
 wire [63:0] pc_out;
 wire [63:0] adder_out;
 wire [63:0] pc_branch_offset;
-wire PC_MUX_SEL = 1'b0;
+wire PC_MUX_SEL = 1'b0; // TODO: NEED TO UPDATE ACCORDINGLY
 wire [31:0] instruction;
 
 // register file
@@ -87,7 +87,7 @@ Register_File regFile(
 /************END_ID************/
 
 /************EX************/
-Control_Unit controlUnut(
+Control_Unit controlUnit(
     instruction,
     REG2LOC,
     ALU_SRC,
@@ -96,6 +96,7 @@ Control_Unit controlUnut(
     MEM_READ,
     MEM_WRITE,
     BRANCH,
+    UNCOND_BRANCH,
     ALU_OP 
 );
 
