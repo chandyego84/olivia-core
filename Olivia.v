@@ -32,7 +32,7 @@ wire MEM2REG;
 wire MEM_READ;
 wire MEM_WRITE;
 wire BRANCH;
-wire UNCOND_BRANCH; // TODO: NEED TO ATTACH TO CONTROL UNIT
+wire UNCOND_BRANCH;
 wire [1:0] ALU_OP;
 
 // ALU Control
@@ -107,6 +107,7 @@ ALU_Control aluControl(
 );
 
 /**
+    AS A MODULE, ALUX_MUX WOULD LOOK LIKE:
     input wire ALU_SRC,
     input wire [63:0] sign_ext_inst,
     input wire [63:0] read_data2,
@@ -143,6 +144,7 @@ RAM ram(
 
 /*** MEM WB ***/
 /**
+AS A MODULE, RAM_MUX WOULD LOOK LIKE:
 module RAM_Mux(
     input wire MEM2REG,
     input wire [63:0] ram_read_data,
