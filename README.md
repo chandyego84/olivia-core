@@ -4,7 +4,7 @@
   <img src="./img/SMOL_ARM_LOGO.jpg" alt="ARMLOGO" style="width:50%; height:50%;">
 </p>
 
-A simplified ARMv8 "processor". The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.  
+A simplified ARMv8 "processor", aka ARM-LEGv8. The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.  
 
 # Olivia Rodrigo Assembly Language
 TODO: add instructions here lol
