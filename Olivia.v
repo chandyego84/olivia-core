@@ -12,7 +12,7 @@ wire [63:0] pc_in;
 wire [63:0] pc_out;
 wire [63:0] adder_out;
 wire [63:0] pc_branch_offset;
-wire PC_MUX_SEL = 1'b0; // TODO: NEED TO UPDATE ACCORDINGLY
+wire PC_MUX_SEL; // TODO: NEED TO UPDATE ACCORDINGLY
 wire [31:0] instruction;
 
 // register file
@@ -63,6 +63,7 @@ Sign_Extend signExt(
 PC_Adder pcAdder(4'b0100, pc_out, adder_out); // update pc by 4 bytes
 Branch_Adder branchAdder(pc_out, sign_ext_inst << 2 , pc_branch_offset);
 
+assign PC_MUX_SEL = BRANCH & ZERO_FLAG | UNCOND_BRANCH;
 Mux_64 pcMux(PC_MUX_SEL, pc_branch_offset, adder_out, pc_in); // decides PC_IN
 
 Program_Counter PC(clk, rst, pc_in, pc_out);

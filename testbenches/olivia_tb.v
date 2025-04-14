@@ -107,6 +107,8 @@ endtask
       $display("Time: %t", $time);
       $display("Cycle: %0d", $time/10);
       $display("PC: %0d", dut.pc_out);
+      $display("BRANCH, UNCOND_BRANCH: %0d, %0d", dut.BRANCH, dut.UNCOND_BRANCH);
+      $display("PC MUX SEL: %0d", dut.PC_MUX_SEL);
       
       case (dut.instruction[31:21])
         // R-type instructions
@@ -181,8 +183,9 @@ endtask
         // CBZ instruction
         11'b10110100000: begin // CBZ
           $display("Operation: CBZ X%d, #13", dut.instruction[4:0]);
-          $display("Register Value (X%d): %0d", dut.instruction[4:0], dut.read_data1);
+          $display("Register Value (X%d): %0d", dut.instruction[4:0], dut.read_data2);
           $display("Zero Flag: %b", dut.ZERO_FLAG);
+          $display("SIGN EXTENDED INST WITH SHIFT: %0d", dut.sign_ext_inst << 2);
         end
         
         // B instruction

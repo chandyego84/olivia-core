@@ -32,20 +32,20 @@ always @ (*) begin
     MEM_READ  <= 0;
     MEM_WRITE <= 0;
     BRANCH    <= 0;
+    UNCOND_BRANCH <= 0;
     ALU_OP    <= 2'b00;
 
     if (opcode_cbz == 8'd180) begin
         // CBZ
         REG2LOC <= 1;
         BRANCH <= 1;
+        UNCOND_BRANCH <= 0;
         ALU_OP <= 2'b01;
         ALU_SRC   <= 0;
         MEM2REG   <= 0;
         REG_WRITE <= 0;
         MEM_READ  <= 0;
         MEM_WRITE <= 0;
-        BRANCH    <= 0;
-
     end
 
     else if (opcode_branch == 8'd5) begin
