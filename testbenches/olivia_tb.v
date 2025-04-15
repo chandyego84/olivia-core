@@ -48,10 +48,21 @@ task print_register_contents;
     $display("--------|------------------");
         for (i = 0; i < 32; i = i + 1) begin
             if (i == 31) begin
-            $display("XZR (X31) | %0d (always zero)", dut.regFile.reg_data[i]);
+            $display("MEM_ADDR (X31) | %0d (always zero)", dut.regFile.reg_data[i]);
             end else begin
             $display("X%-2d      | %0d", i, dut.regFile.reg_data[i]);
             end
+        end
+    end
+endtask
+
+task print_ram_contents;
+    integer i;
+    begin
+    $display("Mem_Addr | Value");
+    $display("--------|------------------");
+        for (i = 0; i < 128; i = i + 1) begin
+            $display("%-2d      | %0d", i, dut.ram.mem_data[i]);
         end
     end
 endtask
@@ -96,7 +107,13 @@ endtask
     
     // Run long enough to execute all instructions
     #170;
+
+    $display("\033[1;34m\n-----------------REGISTERS FINAL-----------------");
+    print_register_contents();
+    $display("\033[1;33m\n-----------------RAM FINAL-----------------");
+    print_ram_contents();
     
+    $display("\033[0m"); // reset ANSI colors
     $finish;
   end
 
@@ -113,6 +130,7 @@ endtask
       case (dut.instruction[31:21])
         // R-type instructions
         11'b10001011000: begin // ADD
+            $display("\033[1;92m"); // GREEN 
             $display("Operation: X%0d = X%0d + X%0d", 
                 dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
             $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
@@ -120,82 +138,105 @@ endtask
             $display("Result: Expected=%0d | Actual=%0d", 
                   dut.read_data1 + dut.read_data2, dut.alu_result);
             $display("Reg2Write: X%0d", dut.rt);
-          if (dut.read_data1 + dut.read_data2 !== dut.alu_result)
-            $display("ERROR: ADD result mismatch!");
+            if (dut.read_data1 + dut.read_data2 !== dut.alu_result) begin
+                $display("ERROR: ADD result mismatch!");
+            end
+            $display("\033[0m"); // reset ANSI colors
         end
         
         11'b11001011000: begin // SUB
+            $display("\033[1;92m"); // GREEN 
             $display("Operation: X%0d = X%0d - X%0d", 
                   dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
             $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
             $display("Operands: %0d - %0d", dut.read_data1, dut.read_data2);
             $display("Result: Expected=%0d | Actual=%0d", 
                   dut.read_data1 - dut.read_data2, dut.alu_result);
-          if (dut.read_data1 - dut.read_data2 !== dut.alu_result)
-            $display("ERROR: SUB result mismatch!");
+            if (dut.read_data1 - dut.read_data2 !== dut.alu_result) begin 
+                $display("ERROR: SUB result mismatch!");    
+            end
+            $display("\033[0m"); // reset ANSI colors
         end
         
         11'b10001010000: begin // AND
+            $display("\033[1;92m"); // GREEN 
             $display("Operation: X%0d = X%0d & X%0d", 
                     dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
             $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
             $display("Operands: %0d & %0d", dut.read_data1, dut.read_data2);
             $display("Result: Expected=%0d | Actual=%0d", 
                     dut.read_data1 & dut.read_data2, dut.alu_result);
-          if ((dut.read_data1 & dut.read_data2) !== dut.alu_result)
-            $display("ERROR: AND result mismatch!");
+            if ((dut.read_data1 & dut.read_data2) !== dut.alu_result) begin 
+                $display("ERROR: AND result mismatch!");
+            end
+            $display("\033[0m"); // reset ANSI colors
         end
         
         11'b10101010000: begin // ORR
+            $display("\033[1;92m"); // GREEN 
             $display("Operation: X%0d = X%0d | X%0d", 
                     dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:16]);
             $display("RN, RM: %0d, %0d", dut.rn, dut.rm);
             $display("Operands: %0d | %0d", dut.read_data1, dut.read_data2);
             $display("Result: Expected=%0d | Actual=%0d", 
                     dut.read_data1 | dut.read_data2, dut.alu_result);
-          if ((dut.read_data1 | dut.read_data2) !== dut.alu_result)
-            $display("ERROR: ORR result mismatch!");
+            if ((dut.read_data1 | dut.read_data2) !== dut.alu_result) begin 
+                $display("ERROR: ORR result mismatch!");
+            end
+            $display("\033[0m"); // reset ANSI colors
         end
         
         // D-type instructions (load/store)
         11'b11111000010: begin // LDUR
-          $display("Operation: X%d = [X%d + %0d]", 
-                  dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:12]);
-          $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
-          $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
-          $display("Expected Address: %0d | Actual: %0d", 
-                  dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
-          if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result)
-            $display("ERROR: LDUR address mismatch!");
+            $display("\033[1;93m"); // YELLOW 
+            $display("Operation: X%d = [X%d + %0d]", 
+                dut.instruction[4:0], dut.instruction[9:5], dut.instruction[20:12]);
+            $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
+            $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
+            $display("Expected Address: %0d | Actual: %0d", 
+                dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
+            if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result) begin 
+                $display("ERROR: LDUR address mismatch!");
+            end
+            $display("\033[0m"); // reset ANSI colors
         end
         
         11'b11111000000: begin // STUR
-          $display("Operation: [X%d + %0d] = X%d", 
-                  dut.instruction[9:5], dut.instruction[20:12], dut.instruction[4:0]);
-          $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
-          $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
-          $display("Expected Address: %0d | Actual: %0d", 
-                  dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
-          if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result)
-            $display("ERROR: STUR address mismatch!");
+            $display("\033[1;93m"); // YELLOW 
+            $display("Operation: [X%d + %0d] = X%d", 
+                dut.instruction[9:5], dut.instruction[20:12], dut.instruction[4:0]);
+            $display("Base Address (X%d): %0d", dut.instruction[9:5], dut.read_data1);
+            $display("Expected Offset: %0d, Actual: %0d", dut.instruction[20:12], dut.sign_ext_inst);
+            $display("Expected Address: %0d | Actual: %0d", 
+                dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
+            if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result) begin 
+                $display("ERROR: STUR address mismatch!");
+            end
+            $display("\033[0m"); // reset ANSI colors
         end
         
         // CBZ instruction
         11'b10110100000: begin // CBZ
-          $display("Operation: CBZ X%d, #13", dut.instruction[4:0]);
-          $display("Register Value (X%d): %0d", dut.instruction[4:0], dut.read_data2);
-          $display("Zero Flag: %b", dut.ZERO_FLAG);
-          $display("SIGN EXTENDED INST WITH SHIFT: %0d", dut.sign_ext_inst << 2);
+            $display("\033[1;96m"); // CYAN 
+            $display("Operation: CBZ X%d, #13", dut.instruction[4:0]);
+            $display("Register Value (X%d): %0d", dut.instruction[4:0], dut.read_data2);
+            $display("Zero Flag: %b", dut.ZERO_FLAG);
+            $display("SIGN EXTENDED INST WITH SHIFT: %0d", dut.sign_ext_inst << 2);
+            $display("\033[0m"); // reset ANSI colors
         end
         
         // B instruction
         11'b00010100000: begin // B
-          $display("Operation: B #20");
+            $display("\033[1;96m"); // CYAN 
+            $display("Operation: B #20");
+            $display("\033[0m"); // reset ANSI colors
         end
         
         default: begin
           if (dut.instruction !== 32'b0)
+            $display("\033[1;91m"); // CYAN 
             $display("UNKNOWN instruction: %b", dut.instruction[31:21]);
+            $display("\033[0m"); // reset ANSI colors
         end
       endcase
     end
