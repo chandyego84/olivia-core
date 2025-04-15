@@ -12,8 +12,12 @@ integer m;
 initial begin 
     // init the ram with zero values 
     for (m = 0; m < 128; m = m + 1) begin
-        mem_data[m] = 0;
+        mem_data[m] = 100*m;
     end
+
+    // init to these values for testing
+    mem_data[10] = 1540;
+    mem_data[11] = 2117;
 end
 
 always @ (*) begin 

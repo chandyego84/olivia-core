@@ -9,13 +9,17 @@ wire [5:0] opcode_branch = instruction[31:26];
 
 always @(*) begin
     if (opcode_cbz == 8'd180) begin
-        // CBZ - 19-bit offset
+        // CBZ - 19-bit offset -- Relative WORD Offset
         extended = {{45{instruction[23]}}, instruction[23:5]};
     end
 
     else if (opcode_branch == 8'd5) begin
-        // BRANCH - 26-bit offset
+        // BRANCH - 26-bit offset -- Relative WORD Offset
         extended = {{38{instruction[25]}}, instruction[25:0]};
+        // $display("INSTRUCTINO 25:0 -- %0b", instruction[25:0]);
+        // $display("instruction[25] = %b", instruction[25]);
+        // $display("SIGNED EXTENDED: %0d", extended);
+        // $display("SIGNED EXTENDED: %b", extended);
     end
 
     else begin
