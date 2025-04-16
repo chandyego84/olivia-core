@@ -1,6 +1,6 @@
 module Branch_Adder(
     input wire [63:0] pc_out,
-    input wire [63:0] branch_off, // relative byte-offset
+    input wire signed [63:0] branch_off, // relative byte-offset
     output wire [63:0] result
 );
 

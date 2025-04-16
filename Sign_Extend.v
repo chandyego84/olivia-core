@@ -1,6 +1,6 @@
 module Sign_Extend(
     input wire [31:0] instruction,
-    output reg [63:0] extended
+    output reg signed [63:0] extended
 );
 
 wire [10:0] opcode_full = instruction[31:21]; // r-type, load, store
@@ -13,13 +13,9 @@ always @(*) begin
         extended = {{45{instruction[23]}}, instruction[23:5]};
     end
 
-    else if (opcode_branch == 8'd5) begin
+    else if (opcode_branch == 6'd5) begin
         // BRANCH - 26-bit offset -- Relative WORD Offset
         extended = {{38{instruction[25]}}, instruction[25:0]};
-        // $display("INSTRUCTINO 25:0 -- %0b", instruction[25:0]);
-        // $display("instruction[25] = %b", instruction[25]);
-        // $display("SIGNED EXTENDED: %0d", extended);
-        // $display("SIGNED EXTENDED: %b", extended);
     end
 
     else begin

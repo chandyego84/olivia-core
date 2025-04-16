@@ -30,7 +30,7 @@ initial begin
     // Instruction 6: CBZ r0, #2
     {im_data[20], im_data[21], im_data[22], im_data[23]} = 32'hB4000040;
 
-    // Instruction 7: LDUR r2, [r10]
+    // Instruction 7: LDUR r2, [r10] -- SKIPPED DUE TO CBZ
     {im_data[24], im_data[25], im_data[26], im_data[27]} = 32'hF8400142;
 
     // Instruction 8: ORR r6, r2, r3
@@ -42,14 +42,11 @@ initial begin
     // Instruction 10: STUR r4, [r7, #1]
     {im_data[36], im_data[37], im_data[38], im_data[39]} = 32'hF80010E4;
 
-    // Instruction 11: B #2
-    {im_data[40], im_data[41], im_data[42], im_data[43]} = 32'h14000003;
+    // Instruction 11: B #-3 -> go back to instruction 8
+    {im_data[40], im_data[41], im_data[42], im_data[43]} = 32'h17FFFFFD;
 
-    // Instruction 12: LDUR r3, [r10, #1]
-    {im_data[44], im_data[45], im_data[46], im_data[47]} = 32'hF8401143;
-
-    // Instruction 13: ADD r8, r0, r1 -- SKIPPED BECAUSE OF THE BRANCH
-    {im_data[48], im_data[49], im_data[50], im_data[51]} = 32'h8B010008;
+    // Instruction 12: ADD r8, r0, r1 -- DOES NOT EXECUTE DUE TO B
+    {im_data[44], im_data[45], im_data[46], im_data[47]} = 32'h8B010008;
 end
 
 // read address and output 32b instruction

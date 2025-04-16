@@ -41,7 +41,7 @@ wire [3:0] ALU_SIGNAL;
 
 // ALU mux
 wire [63:0] alu_read_data2; // alu mux output
-wire [63:0] sign_ext_inst; // alu/branch mux 1
+wire signed [63:0] sign_ext_inst; // alu/branch mux 1
 
 // ALU
 wire [63:0] alu_result;
@@ -76,6 +76,7 @@ Instruction_Memory IM(pc_out, instruction);
 Register_Mux regMux(REG2LOC, rm, rt, reg_mux_out);
 
 Register_File regFile(
+    clk,
     REG_WRITE,
     rn,
     reg_mux_out,
@@ -135,6 +136,7 @@ ALU alu(
 
 /************MEM************/
 RAM ram(
+    clk,
     MEM_WRITE,
     MEM_READ,
     alu_result,
