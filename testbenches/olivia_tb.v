@@ -234,7 +234,6 @@ always @(posedge CLK) begin
                     $display("Expected Address: %0d | Actual: %0d", 
                         dut.read_data1 + dut.sign_ext_inst, dut.alu_result);
                     $display("X%0d = %0d", dut.instruction[4:0], dut.regFile.reg_data[dut.instruction[4:0]]);
-                    $display("M[%0d] = %0d", dut.read_data1 + dut.sign_ext_inst, dut.ram.mem_data[dut.read_data1 + dut.sign_ext_inst]);
                     if (dut.read_data1 + dut.sign_ext_inst !== dut.alu_result) begin 
                         $display("ERROR: STUR address mismatch!");
                     end
