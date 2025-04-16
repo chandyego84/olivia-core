@@ -96,7 +96,7 @@ XZR (register 31): the constant value 0
 ```RAM.v```: Initialized with values 0-1280 except for memory registers 10 (1540) and 11 (2117).
 
 ### Instruction Memory Initialized With Instructions
-The following is a set of test instructions in ```Instruction_Memory.v``` 
+The following is a set of test instructions loaded into ```Instruction_Memory.v``` from ```test_instructions.mem```
 | Line # | ARM Assembly            | Machine Code (Binary)                     | Hexadecimal  | Notes                         |
 |--------|-------------------------|-------------------------------------------|--------------|-------------------------------|
 | 1      | `LDUR r2, [r10]`        | 1111 1000 0100 0000 0000 0001 0100 0010   | 0xF8400142   |                               |
