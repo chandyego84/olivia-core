@@ -1,4 +1,5 @@
 module RAM(
+    input wire clk,
     input wire MEM_WRITE,
     input wire MEM_READ,
     input wire [63:0] address, 
@@ -20,13 +21,15 @@ initial begin
     mem_data[11] = 2117;
 end
 
-always @ (*) begin 
-    if (MEM_WRITE) begin
-        mem_data[address] = write_data;
-    end
-
+always @ (*) begin
     if (MEM_READ) begin
         read_data = mem_data[address];
+    end
+end
+
+always @ (posedge(clk)) begin 
+    if (MEM_WRITE) begin
+        mem_data[address] = write_data;
     end
 end
 
