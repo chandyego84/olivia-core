@@ -91,25 +91,23 @@ XZR (register 31): the constant value 0
 *NOTE: Temporary vs saved registers: No difference in how they work but rather how they ought to be used. Temporaries are caller saved registers, while saved registers are callee saved. In other words, when calling a function, the convention guarantees that the saved registers are the same after return wheras the convention does not guarantee this for the temporary registers.*
 
 ## Testing
-### Registers Initialized With Some Values
-TODO: Add initializers here
+### Registers and Memory Initialized With Some Values
+```Register_File.v```: Initialized registers X0-X30 with values 0-30 and X31 with 0.   
+```RAM.v```: Initialized with values 0-1280 except for memory registers 10 (1540) and 11 (2117).
 
 ### Instruction Memory Initialized With Instructions
-TODO: This is temporary and should adjust to register initialization.
-| Line # | ARM Assembly         | Machine Code                             | Hexadecimal  |
-|--------|----------------------|------------------------------------------|--------------|
-| 1      | `LDUR r2, [r12]`       | 1111 1000 0100 0000 0000 0001 1000 0010  | 0xf8400182   |
-| 2      | `LDUR r3, [r13]`       | 1111 1000 0100 0000 0000 0001 1010 0011  | 0xf84001a3   |
-| 3      | `ORR x5, x20, x1`      | 1010 1010 0000 0001 0000 0010 1000 0101  | 0xaa010285   |
-| 4      | `AND x6, x28, x27`     | 1000 1010 0001 1011 0000 0011 1000 0110  | 0x8a1b0386   |
-| 5      | `NOP`                  | 0000 0000 0000 0000 0000 0000 0000 0000  | 0x00000000   |
-| 6      | `ADD x9, x3, x2`       | 1000 1011 0000 0010 0000 0000 0110 1001  | 0x8b020069   |
-| 7      | `SUB x10, x3, x2`      | 1100 1011 0000 0010 0000 0000 0110 1010  | 0xcb02006a   |
-| 8      | `CBZ x6, #13`          | 1011 0100 0000 0000 0000 0001 1010 0110  | 0xb40001a6   |
-| 9      | `NOP`                  | 0000 0000 0000 0000 0000 0000 0000 0000  | 0x00000000   |
-| 10     | `SUB X11, x9, x3`      | 1100 1011 0000 0011 0000 0001 0010 1011  | 0xcb03012b   |
-| 11     | `AND x9, x9, x10`      | 1000 1010 0000 1010 0000 0001 0010 1001  | 0x8a0a0129   |
-| 12     | `STUR x5, [x7, #1]`    | 1111 1000 0000 0000 0001 0000 1110 0101  | 0xf80010e5   |
-| 13     | `AND x3, x2, x10`      | 1000 1010 0000 1010 0000 0000 0100 0011  | 0x8a0a0043   |
-| 14     | `ORR x21, x25, x24`    | 1010 1010 0001 1000 0000 0011 0011 0101  | 0xaa180335   |
-| 15     | `B #20`                | 0001 0100 0000 0000 0000 0000 0001 0100  | 0x14000014   |
+The following is a set of test instructions in ```Instruction_Memory.v``` 
+| Line # | ARM Assembly            | Machine Code (Binary)                     | Hexadecimal  | Notes                         |
+|--------|-------------------------|-------------------------------------------|--------------|-------------------------------|
+| 1      | `LDUR r2, [r10]`        | 1111 1000 0100 0000 0000 0001 0100 0010   | 0xF8400142   |                               |
+| 2      | `LDUR r3, [r10, #1]`    | 1111 1000 0100 0001 0001 0001 0100 0011   | 0xF8401143   |                               |
+| 3      | `SUB r4, r3, r2`        | 1100 1011 0000 0010 0000 0000 0110 0100   | 0xCB020064   |                               |
+| 4      | `ADD r5, r3, r2`        | 1000 1011 0000 0010 0000 0000 0110 0101   | 0x8B020065   |                               |
+| 5      | `CBZ r1, #2`            | 1011 0100 0000 0000 0000 0000 0100 0001   | 0xB4000041   | Branch if r1 == 0             |
+| 6      | `CBZ r0, #2`            | 1011 0100 0000 0000 0000 0000 0100 0000   | 0xB4000040   | Branch if r0 == 0             |
+| 7      | `LDUR r2, [r10]`        | 1111 1000 0100 0000 0000 0001 0100 0010   | 0xF8400142   | Skipped if CBZ from above hits|
+| 8      | `ORR r6, r2, r3`        | 1010 1010 0000 0011 0000 0000 0100 0110   | 0xAA030046   |                               |
+| 9      | `AND r7, r2, r3`        | 1000 1010 0000 0011 0000 0000 0100 0111   | 0x8A030047   |                               |
+| 10     | `STUR r4, [r7, #1]`     | 1111 1000 0000 0000 0001 0000 1110 0100   | 0xF80010E4   |                               |
+| 11     | `B #-3`                 | 0001 0111 1111 1111 1111 1111 1111 1101   | 0x17FFFFFD   | Branch back to instruction 8  |
+| 12     | `ADD r8, r0, r1`        | 1000 1011 0000 0001 0000 0000 0000 1000   | 0x8B010008   | Never executes due to branch  |
