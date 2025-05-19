@@ -130,7 +130,13 @@ always @(posedge CLK) begin
         $display("PC: %0d", dut.pc_out);
         $display("Instruction: %0d", (dut.pc_out / 4) + 1);
 
-        if (opcode_cbz == 8'd180) begin
+        if (dut.instruction == 32'b0) begin
+            $display("\033[1;91m"); // RED 
+            $display("NOP");
+            $display("\033[0m"); // reset ANSI colors
+        end                
+
+        else if (opcode_cbz == 8'd180) begin
             // CBZ
             $display("\033[1;96m"); // CYAN 
             $display("Operation: CBZ X%d, #%0d", dut.instruction[4:0], dut.sign_ext_inst);
@@ -241,10 +247,11 @@ always @(posedge CLK) begin
                 end
 
                 default: begin
-                    if (dut.instruction != 32'b0)
+                    if (dut.instruction != 32'b0) begin
                         $display("\033[1;91m"); // RED 
                         $display("UNKNOWN instruction: %b", dut.instruction[31:21]);
-                        $display("\033[0m"); // reset ANSI colors                
+                        $display("\033[0m"); // reset ANSI colors
+                    end                
                 end
             endcase            
         end
