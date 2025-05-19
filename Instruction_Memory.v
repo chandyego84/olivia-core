@@ -12,7 +12,7 @@ initial begin
     for (integer i = 0; i < 64; i = i + 1)
         im_data[i] = 8'h00;
 
-    $readmemh("olivia.mem", im_data);
+    $readmemh("olivia_out.mem", im_data);
 end
 
 // read address and output 32b instruction
