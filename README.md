@@ -7,13 +7,13 @@
 A simplified ARMv8 "processor", aka ARM-LEGv8. The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.  
 
 # Olivia Rodrigo Assembly Language     
-"GETHIMBACK": "LDUR",  
-"STRANGER": "STUR",  
-"SOAMERICAN": "ADD",  
-"VAMPIRE": "SUB",  
-"TEENAGEDREAM": "B",   
-"LOGICAL": "CBZ",  
-"REDLIGHT": "NOP",  
+__"GETHIMBACK"__: "LDUR",  
+__"STRANGER"__: "STUR",  
+__"SOAMERICAN"__: "ADD",  
+__"VAMPIRE"__: "SUB",  
+__"TEENAGEDREAM"__: "B",   
+__"LOGICAL"__: "CBZ",  
+__"REDLIGHT"__: "NOP",  
 
 
 # Architecture Information
@@ -42,6 +42,8 @@ A folder with various verilog modules for practice.
 
 - Assembly IDE and Verilog Simulation:
 `python ide.py`
+![](./img/olivia_ASM.jpg)
+
 
 ## Introduction
 ### Datapath with control unit  
