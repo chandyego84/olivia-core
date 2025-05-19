@@ -6,8 +6,15 @@
 
 A simplified ARMv8 "processor", aka ARM-LEGv8. The processor is based on the architecture from 'Computer Organization and Design ARM Edition' by David A. Patterson and John L. Hennessy.  
 
-# Olivia Rodrigo Assembly Language
-TODO: add instructions here lol
+# Olivia Rodrigo Assembly Language     
+"GETHIMBACK": "LDUR",  
+"STRANGER": "STUR",  
+"SOAMERICAN": "ADD",  
+"VAMPIRE": "SUB",  
+"TEENAGEDREAM": "B",   
+"LOGICAL": "CBZ",  
+"REDLIGHT": "NOP",  
+
 
 # Architecture Information
 __Doubleword__: Group of 64 bits.    
@@ -28,10 +35,13 @@ A folder with various verilog modules for practice.
 - Download and install [GTKWave](http://gtkwave.sourceforge.net/)
 
 ## Running
-- Run using makefile OR     
-`iverilog -o ARM olivia.v`  
+- Verilog simulation only: Run using makefile OR     
+`iverilog -o ARM Olivia.v`  
 `vvp ARM`    
-`gtkwave olivia.v`
+`gtkwave Olivia.v`
+
+- Assembly IDE and Verilog Simulation:
+`python ide.py`
 
 ## Introduction
 ### Datapath with control unit  
@@ -96,7 +106,7 @@ XZR (register 31): the constant value 0
 ```RAM.v```: Initialized with values 0-1280 except for memory registers 10 (1540) and 11 (2117).
 
 ### Instruction Memory Initialized With Instructions
-The following is a set of test instructions loaded into ```Instruction_Memory.v``` from ```test_instructions.mem```
+The following is a set of test instructions which can be loaded into ```Instruction_Memory.v``` from ```test_instructions.mem```
 | Line # | ARM Assembly            | Machine Code (Binary)                     | Hexadecimal  | Notes                         |
 |--------|-------------------------|-------------------------------------------|--------------|-------------------------------|
 | 1      | `LDUR r2, [r10]`        | 1111 1000 0100 0000 0000 0001 0100 0010   | 0xF8400142   |                               |

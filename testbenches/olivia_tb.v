@@ -71,21 +71,29 @@ endtask
 function [8*20:1] get_opcode_name;
 input [31:0] instr;
 begin
-    case (instr[31:21])
-    11'b10001011000: get_opcode_name = "ADD";
-    11'b11001011000: get_opcode_name = "SUB"; 
-    11'b10001010000: get_opcode_name = "AND";
-    11'b10101010000: get_opcode_name = "ORR";
-    11'b11111000010: get_opcode_name = "LDUR";
-    11'b11111000000: get_opcode_name = "STUR";
-    11'b10110100000: get_opcode_name = "CBZ";
-    11'b00010100000: get_opcode_name = "B";
-    default: 
-        if (instr == 32'b0) 
-        get_opcode_name = "NOP";
-        else
-        get_opcode_name = "UNKNOWN";
-    endcase
+    if (instr[31:24] == 8'd180) begin
+        get_opcode_name = "CBZ";
+    end
+    
+    else if (instr[31:26] == 8'd5) begin
+        get_opcode_name = "B";
+    end
+    
+    else begin
+        case (instr[31:21])
+        11'b10001011000: get_opcode_name = "ADD";
+        11'b11001011000: get_opcode_name = "SUB"; 
+        11'b10001010000: get_opcode_name = "AND";
+        11'b10101010000: get_opcode_name = "ORR";
+        11'b11111000010: get_opcode_name = "LDUR";
+        11'b11111000000: get_opcode_name = "STUR";
+        default: 
+            if (instr == 32'b0) 
+            get_opcode_name = "NOP";
+            else
+            get_opcode_name = "UNKNOWN";
+        endcase
+    end
 end
 endfunction
 
