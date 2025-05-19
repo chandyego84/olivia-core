@@ -1,5 +1,25 @@
 import sys
 
+'''
+EXAMPLE LINES FOR REFERENCE:
+// LOAD, STORE
+LDUR r2, [r10]
+LDUR r3, [r10, #1]	
+
+// ADD, SUB, AND, ORR
+SUB r4, r3, r2	
+ADD r5, r3, r2	
+ORR r6, r2, r3
+AND r7, r2, r3
+
+// BRANCHING
+CBZ r0, #2	// branch if r0 == 0. Word offset: 2. PC-Relative Branch Offset: 8
+B #-3 // PC-Relative Branch Offset: -12
+
+// NOP
+NOP
+'''
+
 # Instruction mapping
 instruction_map = {
     "GETHIMBACK": "LDUR",
@@ -9,7 +29,6 @@ instruction_map = {
     "TEENAGEDREAM": "B",
     "LOGICAL": "CBZ",
     "REDLIGHT": "NOP",
-    "B": "B"
 }
 
 def encode_instruction(mnemonic, args, label_positions=None, current_line=None):
@@ -41,10 +60,10 @@ def encode_instruction(mnemonic, args, label_positions=None, current_line=None):
         # BRANCH - calculate offset
         label = args[0]
         if label in label_positions:
-            label_addr = label_positions[label]
-            offset = label_addr - current_line  # offset in terms of instructions
-            print(f"Branching to label '{label}' at line {label_addr}, offset: {offset}")
-            return f"{opcode[mnemonic]:<6}{(offset & 0x3FFFFFF):026b}"
+            label_line_num = label_positions[label]
+            offset = label_line_num - current_line  # offset in terms of instructions
+            print(f"Branching to label '{label}' at line {label_line_num}, offset: {offset}")
+            return f"{opcode[mnemonic]:<6}{(offset):026b}"
         else:
             raise ValueError(f"Label '{label}' not found during branch resolution.")
 
@@ -56,25 +75,26 @@ def encode_instruction(mnemonic, args, label_positions=None, current_line=None):
     return "0" * 32
 
 def translate_assembly(input_file, output_file):
-    # first pass: gather label positions
     label_positions = {}
     instructions = []
-    current_line = 0
+    instruction_index = 0
 
     with open(input_file, "r") as infile:
         for line in infile:
+            # only increment instruction index if line is an instruction
+
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
 
-            # Check if the line is a label (labels are just a word followed by ":")
+            # check if the line is a label (e.g., 'iAmALabel:')
             if line.endswith(":"):
                 label = line[:-1]
-                label_positions[label] = current_line
+                label_positions[label] = instruction_index
                 continue
 
             parts = line.replace(",", "").split()
-            olivia_inst = parts[0].upper()  # ensure it's in uppercase
+            olivia_inst = parts[0].upper()  # capitalize the instruction name
             args = parts[1:]
 
             if olivia_inst not in instruction_map:
@@ -82,29 +102,33 @@ def translate_assembly(input_file, output_file):
                 continue
 
             instructions.append((olivia_inst, args))
-            current_line += 1
+            instruction_index += 1
 
     # second pass: encode instructions and resolve branches
     with open(output_file, "w") as outfile:
-        current_line = 0
+        instruction_index = 0
         for olivia_inst, args in instructions:
             print(f"Encoding: {olivia_inst} {args}")
             mnemonic = instruction_map[olivia_inst]
             try:
-                binary = encode_instruction(mnemonic, args, label_positions, current_line)
+                binary = encode_instruction(mnemonic, args, label_positions, instruction_index)
                 # Convert binary to big-endian bytes and write each byte on a separate line
                 hex_str = f"{int(binary, 2):08X}"
+
                 # Split into bytes (big-endian order)
                 bytes_list = [hex_str[i:i+2] for i in range(0, len(hex_str), 2)]
+                
                 # Write bytes in big-endian order (MSB first)
                 for byte in bytes_list:
                     outfile.write(byte + "\n")
+            
             except ValueError as e:
-                print(f"Error at line {current_line}: {e}")
-            current_line += 1
+                print(f"Error at line {instruction_index}: {e}")
+            instruction_index += 1
 
 if __name__ == '__main__':
     if len(sys.argv) != 3:
         print("Usage: python assembler.py <input.asm> <output.mem>")
+
     else:
         translate_assembly(sys.argv[1], sys.argv[2])
