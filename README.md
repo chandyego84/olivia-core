@@ -123,3 +123,7 @@ The following is a set of test instructions which can be loaded into ```Instruct
 | 10     | `STUR r4, [r7, #1]`     | 1111 1000 0000 0000 0001 0000 1110 0100   | 0xF80010E4   |                               |
 | 11     | `B #-3`                 | 0001 0111 1111 1111 1111 1111 1111 1101   | 0x17FFFFFD   | Branch back to instruction 8  |
 | 12     | `ADD r8, r0, r1`        | 1000 1011 0000 0001 0000 0000 0000 1000   | 0x8B010008   | Never executes due to branch  |
+
+### TODO
+[ ] PIPELIINING  
+[ ] BRANCH PREDICTION
