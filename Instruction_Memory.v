@@ -8,8 +8,9 @@ module Instruction_Memory(
 // holds up to 16 instructions
 reg [7:0] im_data [0:63];
 
+integer i;
 initial begin
-    for (integer i = 0; i < 64; i = i + 1)
+    for (i = 0; i < 64; i = i + 1)
         im_data[i] = 8'h00;
 
     $readmemh("test_instructions.mem", im_data);

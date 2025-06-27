@@ -7,7 +7,20 @@ root = tk.Tk()
 root.title("OliviaASM IDE")
 root.geometry("800x600")
 
-code_text = tk.Text(root, font=("Courier New", 12), wrap=tk.NONE)
+# Wrap the Text widget in a Frame to add a custom black border
+text_frame = tk.Frame(root, background="black", bd=2)
+text_frame.pack(fill=tk.BOTH, expand=True)
+
+# Light purple background, white bold text, inside a black border
+code_text = tk.Text(
+    text_frame, 
+    font=("Courier New", 12, "bold"), 
+    wrap=tk.NONE, 
+    bg="#d6b3ff", 
+    fg="white", 
+    bd=0,              # No internal border (handled by the frame)
+    insertbackground="white"  # Makes the cursor visible against purple
+)
 code_text.pack(fill=tk.BOTH, expand=True)
 
 button_frame = tk.Frame(root)
@@ -18,7 +31,9 @@ def show_scrollable_output(title, content, error=False):
     output_window.title(title)
     output_window.geometry("600x400")
 
-    text_area = tk.Text(output_window, wrap=tk.WORD, bg="#fff0f0" if error else "#f0fff0")
+    text_area = tk.Text(output_window, wrap=tk.WORD, 
+                        bg="#fff0f0" if error else "#f0fff0", 
+                        fg="black")
     text_area.insert(tk.END, content)
     text_area.config(state=tk.DISABLED)
     text_area.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)

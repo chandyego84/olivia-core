@@ -1,0 +1,11 @@
+11:03:21 INFO  : updated workspace path: C:\Users\chand\ARM8
+11:03:21 INFO  : Marking the target connection as default Local
+11:03:21 INFO  : Marking the target connection as default Linux Agent
+11:03:21 INFO  : Marking the target connection as default XRTServer
+11:03:21 INFO  : Marking the target connection as default LinuxEmulation
+11:03:21 INFO  : Marking the target connection as default QEMU
+11:05:22 INFO  : connection terminated
+11:05:22 INFO  : connection terminated
+11:05:22 INFO  : scheduling shutdown timer for 2 seconds ...
+11:05:24 INFO  : Terminating Vitis C++ Server
+11:05:24 INFO  : Vitis C++ Server terminated
